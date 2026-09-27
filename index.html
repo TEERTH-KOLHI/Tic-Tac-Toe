@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe | Premium Edition</title>
+    <link rel="shortcut icon" href="Images/icon.ico" type="image/x-icon">
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/overlay.css">
+</head>
+
+<body>
+    <!-- Background glowing ambient spheres -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="ambient-glow glow-3"></div>
+
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-expand-lg premium-navbar">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="./index.html">
+                <div class="logo-box">
+                    <img src="Images/icon.ico" alt="Tic Tac Toe logo" class="brand-icon">
+                </div>
+                <div class="brand-text">
+                    <span class="brand-title">TIC TAC TOE</span>
+                    <span class="brand-badge">PRO</span>
+                </div>
+            </a>
+            
+            <div class="nav-controls d-flex align-items-center gap-2">
+                <button type="button" class="btn-icon" id="soundToggle" title="Toggle Sound">
+                    <i class="fa-solid fa-volume-high" id="soundIcon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container (Fits 100vh Viewport) -->
+    <main class="container" id="mainwindow">
+        <!-- Setup / Question Window -->
+        <div class="questionwindow glass-card" id="askquestion">
+            <div class="setup-header text-center">
+                <div class="setup-badge"><i class="fa-solid fa-gamepad"></i> Game Setup</div>
+                <h1 class="setup-title">Choose Your Side</h1>
+                <p class="setup-subtitle">Enter player names and select who plays first</p>
+            </div>
+
+            <div class="player-cards-grid">
+                <!-- Player 1 Card -->
+                <div class="player-setup-card card-p1">
+                    <div class="player-card-header">
+                        <div class="player-identity">
+                            <span class="player-tag p1-tag"><i class="fa-solid fa-circle-dot"></i> PLAYER 01</span>
+                            <span class="player-symbol-pill p1-pill" id="p1SymbolTag">X</span>
+                        </div>
+                        <button type="button" class="btn-random-name" data-target="player1name" title="Randomize name">
+                            <i class="fa-solid fa-dice"></i>
+                        </button>
+                    </div>
+
+                    <div class="player-field-wrapper">
+                        <div class="player-avatar-badge p1-avatar">
+                            <i class="fa-solid fa-gamepad"></i>
+                        </div>
+                        <div class="input-inner-box">
+                            <label class="input-sublabel" for="player1name">CHALLENGER 1</label>
+                            <input type="text" class="player-name-field" id="player1name" placeholder="Enter Player 1 Name" value="Player 1" maxlength="15" autocomplete="off" spellcheck="false">
+                        </div>
+                        <button type="button" class="btn-clear-input" data-target="player1name" title="Clear input">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- VS Divider -->
+                <div class="players-vs-divider">
+                    <div class="vs-line"></div>
+                    <span class="vs-badge">VS</span>
+                    <div class="vs-line"></div>
+                </div>
+
+                <!-- Player 2 Card -->
+                <div class="player-setup-card card-p2">
+                    <div class="player-card-header">
+                        <div class="player-identity">
+                            <span class="player-tag p2-tag"><i class="fa-solid fa-circle-dot"></i> PLAYER 02</span>
+                            <span class="player-symbol-pill p2-pill" id="p2SymbolTag">O</span>
+                        </div>
+                        <button type="button" class="btn-random-name" data-target="player2name" title="Randomize name">
+                            <i class="fa-solid fa-dice"></i>
+                        </button>
+                    </div>
+
+                    <div class="player-field-wrapper">
+                        <div class="player-avatar-badge p2-avatar">
+                            <i class="fa-solid fa-ghost"></i>
+                        </div>
+                        <div class="input-inner-box">
+                            <label class="input-sublabel" for="player2name">CHALLENGER 2</label>
+                            <input type="text" class="player-name-field" id="player2name" placeholder="Enter Player 2 Name" value="Player 2" maxlength="15" autocomplete="off" spellcheck="false">
+                        </div>
+                        <button type="button" class="btn-clear-input" data-target="player2name" title="Clear input">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="side-selector-container">
+                <p class="selector-label">Player 1 Plays As:</p>
+                <div class="side-choice-wrapper">
+                    <button type="button" class="choosebtn side-btn selected" id="xbtn" data-choice="X">
+                        <span class="side-letter x-symbol">X</span>
+                        <span class="side-desc">Plays First</span>
+                    </button>
+                    <button type="button" class="choosebtn side-btn" id="obtn" data-choice="O">
+                        <span class="side-letter o-symbol">O</span>
+                        <span class="side-desc">Plays Second</span>
+                    </button>
+                </div>
+            </div>
+
+            <button type="button" class="btn-start-game" id="startGameBtn">
+                <span>Start Match</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+
+        <!-- Active Game Window -->
+        <div class="gamewindow" id="gmwindow">
+            <!-- Scoreboard -->
+            <div class="scoreboard-bar glass-card">
+                <div class="player-badge player-1-card" id="p1Card">
+                    <div class="badge-avatar x-avatar"><i class="fa-solid fa-xmark"></i></div>
+                    <div class="badge-info">
+                        <span class="badge-name" id="p1DisplayName">Player 1</span>
+                        <span class="badge-choice" id="p1DisplayChoice">X</span>
+                    </div>
+                    <div class="badge-score" id="p1Score">0</div>
+                </div>
+
+                <div class="scoreboard-center">
+                    <div class="round-indicator" id="turnshower">
+                        <span class="pulse-dot"></span>
+                        <span id="turnText">Player 1's Turn</span>
+                    </div>
+                    <div class="draw-counter">
+                        <span class="draw-label">Ties</span>
+                        <span class="draw-count" id="tieScore">0</span>
+                    </div>
+                </div>
+
+                <div class="player-badge player-2-card" id="p2Card">
+                    <div class="badge-score" id="p2Score">0</div>
+                    <div class="badge-info text-end">
+                        <span class="badge-name" id="p2DisplayName">Player 2</span>
+                        <span class="badge-choice" id="p2DisplayChoice">O</span>
+                    </div>
+                    <div class="badge-avatar o-avatar"><i class="fa-solid fa-circle"></i></div>
+                </div>
+            </div>
+
+            <!-- Board & Controls Layout -->
+            <div class="game-arena">
+                <!-- 3x3 Grid Board -->
+                <div class="board-wrapper glass-card">
+                    <div class="boxes">
+                        <button class="tile" data-index="0" aria-label="Tile 1"></button>
+                        <button class="tile" data-index="1" aria-label="Tile 2"></button>
+                        <button class="tile" data-index="2" aria-label="Tile 3"></button>
+                        <button class="tile" data-index="3" aria-label="Tile 4"></button>
+                        <button class="tile" data-index="4" aria-label="Tile 5"></button>
+                        <button class="tile" data-index="5" aria-label="Tile 6"></button>
+                        <button class="tile" data-index="6" aria-label="Tile 7"></button>
+                        <button class="tile" data-index="7" aria-label="Tile 8"></button>
+                        <button class="tile" data-index="8" aria-label="Tile 9"></button>
+                    </div>
+                </div>
+
+                <!-- Match Control Buttons -->
+                <div class="control-actions glass-card">
+                    <button type="button" class="game-action-btn primary-action" id="nextRoundBtn">
+                        <i class="fa-solid fa-rotate-right"></i>
+                        <span>Next Round</span>
+                    </button>
+                    <button type="button" class="game-action-btn" id="restrt">
+                        <i class="fa-solid fa-arrow-rotate-left"></i>
+                        <span>Reset Scores</span>
+                    </button>
+                    <button type="button" class="game-action-btn" id="newMatchBtn">
+                        <i class="fa-solid fa-users"></i>
+                        <span>Change Players</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Confetti Canvas -->
+    <canvas id="confettiCanvas"></canvas>
+
+    <!-- Victory / Draw Modal Overlay -->
+    <div class="overlay" id="overlayModal">
+        <div class="overlay-dialog glass-modal">
+            <div class="modal-decoration-glow"></div>
+            <div class="modal-icon-badge" id="modalBadge">
+                <i class="fa-solid fa-trophy" id="modalIcon"></i>
+            </div>
+            <div class="overlay-header" id="overlayHeader">VICTORY!</div>
+            <div class="overlay-body" id="overlayBody">Player 1 wins this round!</div>
+            
+            <div class="modal-footer-actions">
+                <button type="button" class="modal-action-btn btn-secondary-action" id="closeOverlayBtn">
+                    View Board
+                </button>
+                <button type="button" class="modal-action-btn btn-primary-action" id="playagain">
+                    Play Next Round <i class="fa-solid fa-forward"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="backchanger" id="overlayBackdrop"></div>
+
+    <script defer src="scripts/overlay.js"></script>
+    <script defer src="scripts/script.js"></script>
+</body>
+
+</html>
